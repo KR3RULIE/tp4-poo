@@ -78,4 +78,31 @@ class Agenda {
       document.writeln(`El contacto ${nombre} no existe`);
     }
   }
+
+  eliminarContacto(contacto) {
+    let bandera = true;
+    for (let i = 0; i < this.agendaDeContactos.length; i++) {
+      if (contacto === this.agendaDeContactos[i].nombre) {
+        this.agendaDeContactos.splice(i, 1);
+        document.writeln(`Se elimino exitosamente.`);
+        bandera = false;
+        break;
+      }
+    }
+    if (bandera === true) {
+      document.writeln(
+        `No se puede eliminar porque el contacto ${contacto} no existe`
+      );
+    }
+  }
+
+  agendaLlena() {
+    if (this.agendaDeContactos.length < 10) {
+      document.writeln(
+        `La agenda aún no está llena. Puedes añadir más contactos.`
+      );
+    } else {
+      document.writeln(`La agenda está llena.`);
+    }
+  }
 }
