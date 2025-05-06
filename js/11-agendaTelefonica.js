@@ -21,3 +21,61 @@ huecosLibres(): indica cuántos contactos más podemos ingresar.
 Crea un menú con opciones que serán seleccionadas por el usuario usando un prompt, 
 las salidas de las operaciones seleccionadas por el usuario se pueden mostrar en 
 pantalla y  por consola.*/
+
+class Contacto {
+  constructor(nombre, telefono) {
+    this.nombre = nombre;
+    this.telefono = telefono;
+  }
+}
+
+class Agenda {
+  constructor() {
+    this.agendaDeContactos = [];
+  }
+
+  aniadirContacto(contacto) {
+    if (this.agendaDeContactos.length < 10) {
+      this.agendaDeContactos.push(contacto);
+    } else {
+      document.writeln(
+        `¡Limite superado! No es posible agendar a ${contacto.nombre}`
+      );
+    }
+  }
+
+  existeContacto(contacto) {
+    const existe = this.agendaDeContactos.some(
+      (c) => c.nombre === contacto.nombre
+    );
+    if (existe) {
+      document.writeln(`El contacto ${contacto.nombre} ya existe`);
+    } else {
+      document.writeln(`El contacto ${contacto.nombre} no existe aún`);
+    }
+  }
+
+  listarContactos() {
+    document.writeln(`<ul>`);
+    for (let i = 0; i < this.agendaDeContactos.length; i++) {
+      document.writeln(
+        `<li>Nombre: ${this.agendaDeContactos[i].nombre} - Número: ${this.agendaDeContactos[i].telefono}</li>`
+      );
+    }
+    document.writeln(`</ul>`);
+  }
+
+  buscarContacto(nombre) {
+    let bandera = true;
+    for (let i = 0; i < this.agendaDeContactos.length; i++) {
+      if (nombre === this.agendaDeContactos[i].nombre) {
+        document.writeln(`Su número: ${this.agendaDeContactos[i].telefono}`);
+        bandera = false;
+        break;
+      }
+    }
+    if (bandera === true) {
+      document.writeln(`El contacto ${nombre} no existe`);
+    }
+  }
+}
