@@ -37,10 +37,13 @@ class Agenda {
   aniadirContacto(contacto) {
     if (this.agendaDeContactos.length < 10) {
       this.agendaDeContactos.push(contacto);
+      console.log("Contacto añadido de manera exitosa!");
+      alert("Contacto añadido de manera exitosa!");
     } else {
-      document.writeln(
+      console.log(
         `¡Limite superado! No es posible agendar a ${contacto.nombre}`
       );
+      alert(`¡Limite superado! No es posible agendar a ${contacto.nombre}`);
     }
   }
 
@@ -49,33 +52,47 @@ class Agenda {
       (c) => c.nombre === contacto.nombre
     );
     if (existe) {
-      document.writeln(`El contacto ${contacto.nombre} ya existe`);
+      console.log(`El contacto ${contacto.nombre} ya existe`);
+      alert(`El contacto ${contacto.nombre} ya existe`);
     } else {
-      document.writeln(`El contacto ${contacto.nombre} no existe aún`);
+      console.log(`El contacto ${contacto.nombre} no existe aún`);
+      alert(`El contacto ${contacto.nombre} no existe aún`);
     }
   }
 
   listarContactos() {
-    document.writeln(`<ul>`);
-    for (let i = 0; i < this.agendaDeContactos.length; i++) {
-      document.writeln(
-        `<li>Nombre: ${this.agendaDeContactos[i].nombre} - Número: ${this.agendaDeContactos[i].telefono}</li>`
-      );
+    if (this.agendaDeContactos.length > 0) {
+      for (let i = 0; i < this.agendaDeContactos.length; i++) {
+        console.log(
+          `Contacto número ${i + 1}: Nombre: ${
+            this.agendaDeContactos[i].nombre
+          } - Número: ${this.agendaDeContactos[i].telefono}`
+        );
+        alert(
+          `Contacto número ${i + 1}: Nombre: ${
+            this.agendaDeContactos[i].nombre
+          } - Número: ${this.agendaDeContactos[i].telefono}`
+        );
+      }
+    } else {
+      console.log("Aun no existe ningun contacto");
+      alert("Aun no existe ningun contacto");
     }
-    document.writeln(`</ul>`);
   }
 
   buscarContacto(nombre) {
     let bandera = true;
     for (let i = 0; i < this.agendaDeContactos.length; i++) {
       if (nombre === this.agendaDeContactos[i].nombre) {
-        document.writeln(`Su número: ${this.agendaDeContactos[i].telefono}`);
+        console.log(`Su número: ${this.agendaDeContactos[i].telefono}`);
+        alert(`Su número: ${this.agendaDeContactos[i].telefono}`);
         bandera = false;
         break;
       }
     }
     if (bandera === true) {
-      document.writeln(`El contacto ${nombre} no existe`);
+      console.log(`El contacto ${nombre} no existe`);
+      alert(`El contacto ${nombre} no existe`);
     }
   }
 
@@ -84,30 +101,82 @@ class Agenda {
     for (let i = 0; i < this.agendaDeContactos.length; i++) {
       if (contacto === this.agendaDeContactos[i].nombre) {
         this.agendaDeContactos.splice(i, 1);
-        document.writeln(`Se elimino exitosamente.`);
+        console.log(`Se elimino exitosamente.`);
+        alert(`Se elimino exitosamente.`);
         bandera = false;
         break;
       }
     }
     if (bandera === true) {
-      document.writeln(
+      console.log(
         `No se puede eliminar porque el contacto ${contacto} no existe`
       );
+      alert(`No se puede eliminar porque el contacto ${contacto} no existe`);
     }
   }
 
   agendaLlena() {
     if (this.agendaDeContactos.length < 10) {
-      document.writeln(
-        `La agenda aún no está llena. Puedes añadir más contactos.`
-      );
+      console.log(`La agenda aún no está llena. Puedes añadir más contactos.`);
+      alert(`La agenda aún no está llena. Puedes añadir más contactos.`);
     } else {
-      document.writeln(`La agenda está llena.`);
+      console.log(`La agenda está llena.`);
+      alert(`La agenda está llena.`);
     }
   }
 
   huecosLibres() {
     const huecosLibres = 10 - this.agendaDeContactos.length;
-    document.writeln(`Aun quedan ${huecosLibres} espacios libres`);
+    console.log(`Aun quedan ${huecosLibres} espacios libres`);
+    alert(`Aun quedan ${huecosLibres} espacios libres`);
   }
 }
+
+const miAgenda = new Agenda();
+
+do {
+  const key = parseInt(
+    prompt(`==Menu:==
+1: Añadir un contaco
+2: Verificar si existe un contacto
+3: Listar los contactos
+4: Buscar un contacto
+5: Eliminar un contacto
+6: Verificar si la agenda esta llena
+7: Verificar cuantos contactos mas se puede agendar`)
+  );
+  switch (key) {
+    case 1:
+      const nombre = prompt("Ingrese el nombre del contacto");
+      const telefono = parseInt(prompt("Ingrese el telefono del contacto"));
+      const nuevoContacto = new Contacto(nombre, telefono);
+      miAgenda.aniadirContacto(nuevoContacto);
+      break;
+    case 2:
+      const verificarNombre = prompt("Ingrese el nombre del contacto");
+      const contactoTemporal = new Contacto(verificarNombre, 0);
+      miAgenda.existeContacto(contactoTemporal);
+      break;
+    case 3:
+      miAgenda.listarContactos();
+      break;
+    case 4:
+      const buscarContacto = prompt("Ingrese el nombre del contacto");
+      miAgenda.buscarContacto(buscarContacto);
+      break;
+    case 5:
+      const eliminarContacto = prompt("Ingrese el nombre del contacto");
+      miAgenda.eliminarContacto(eliminarContacto);
+      break;
+    case 6:
+      miAgenda.agendaLlena();
+      break;
+    case 7:
+      miAgenda.huecosLibres();
+      break;
+
+    default:
+      alert("No selecciono ninguna opción valida");
+      break;
+  }
+} while (confirm("¿Desea realizar otra operación?"));
