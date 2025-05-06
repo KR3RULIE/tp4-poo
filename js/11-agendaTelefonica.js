@@ -105,4 +105,9 @@ class Agenda {
       document.writeln(`La agenda está llena.`);
     }
   }
+
+  huecosLibres() {
+    const huecosLibres = 10 - this.agendaDeContactos.length;
+    document.writeln(`Aun quedan ${huecosLibres} espacios libres`);
+  }
 }
